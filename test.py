@@ -184,6 +184,7 @@ if __name__ == "__main__":
             print(f"Không thể tạo thư mục '{output_directory}'.")
 
         import cv2
+        output_image_bgr = cv2.cvtColor(output_image, cv2.COLOR_RGB2BGR)
         output_image_path = output_directory / 'inpainted.png'
-        cv2.imwrite(str(output_image_path), output_image)
+        cv2.imwrite(str(output_image_path), output_image_bgr)
         print("Đã xử lý xong và lưu ảnh tạm")
