@@ -173,7 +173,7 @@ if __name__ == "__main__":
     
     # Lưu ảnh tạm nếu cần (hoặc xử lý tiếp)
     if output_image is not None:
-        output_directory = Path('models/inpainted')
+        output_directory = Path('cache/inpainted')
         output_directory.mkdir(parents=True, exist_ok=True)
 
         # Kiểm tra xem thư mục đã được tạo chưa
