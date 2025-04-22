@@ -107,12 +107,10 @@ def main(conf: conf_mgt.Default_Conf):
         return model(x, t, y if conf.class_cond else None, gt=gt)
 
     print("sampling...")
-    all_images = []
+    all_outputs = []
 
     dset = 'eval'
-
     eval_name = conf.get_default_eval_name()
-
     dl = conf.get_dataloader(dset=dset, dsName=eval_name)
 
     for batch in iter(dl):
@@ -157,17 +155,9 @@ def main(conf: conf_mgt.Default_Conf):
             conf=conf
         )
         srs = toU8(result['sample'])
-        gts = toU8(result['gt'])
-        lrs = toU8(result.get('gt') * model_kwargs.get('gt_keep_mask') + (-1) *
-                   th.ones_like(result.get('gt')) * (1 - model_kwargs.get('gt_keep_mask')))
+        all_outputs.append(srs[0])
 
-        gt_keep_masks = toU8((model_kwargs.get('gt_keep_mask') * 2 - 1))
-
-        conf.eval_imswrite(
-            srs=srs, gts=gts, lrs=lrs, gt_keep_masks=gt_keep_masks,
-            img_names=batch['GT_name'], dset=dset, name=eval_name, verify_same=False)
-
-    print("sampling complete")
+        return all_outputs[0] if all_outputs else None
 
 
 if __name__ == "__main__":
@@ -177,4 +167,12 @@ if __name__ == "__main__":
 
     conf_arg = conf_mgt.conf_base.Default_Conf()
     conf_arg.update(yamlread(args.get('conf_path')))
-    main(conf_arg)
+    
+    # Thay vì gọi main() trực tiếp, chúng ta xử lý kết quả
+    output_image = main(conf_arg)
+    
+    # Lưu ảnh tạm nếu cần (hoặc xử lý tiếp)
+    if output_image is not None:
+        import cv2
+        cv2.imwrite('temp_output.png', output_image)
+        print("Đã xử lý xong và lưu ảnh tạm")

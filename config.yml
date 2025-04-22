@@ -16,7 +16,7 @@
 
 attention_resolutions: 32,16,8
 class_cond: false
-diffusion_steps: 1000
+diffusion_steps: 1000            # Giữ nguyên tổng bước nhưng respacing xuống 100
 learn_sigma: true
 noise_schedule: linear
 num_channels: 256
@@ -24,13 +24,14 @@ num_head_channels: 64
 num_heads: 4
 num_res_blocks: 2
 resblock_updown: true
-use_fp16: false
+use_fp16: true                   # Bật FP16 để tăng tốc
 use_scale_shift_norm: true
+
 classifier_scale: 4.0
 lr_kernel_n_std: 2
-num_samples: 100
+num_samples: 2
 show_progress: true
-timestep_respacing: '250'
+timestep_respacing: '100'        # Giảm mạnh số bước sampling
 use_kl: false
 predict_xstart: false
 rescale_timesteps: false
@@ -49,24 +50,26 @@ use_checkpoint: false
 use_new_attention_order: false
 clip_denoised: true
 use_ddim: false
+latex_name: RePaint
+method_name: Repaint
 image_size: 256
-model_path: ./data/pretrained/places256_300000.pt
-name: test_p256_ex64
+model_path: ./models/celeba256_250000.pt
+name: face_example
 inpa_inj_sched_prev: true
-n_jobs: 25
+n_jobs: 1
 print_estimated_vars: true
 inpa_inj_sched_prev_cumnoise: false
 schedule_jump_params:
-  t_T: 250
+  t_T: 100                       # Giảm số bước
   n_sample: 1
-  jump_length: 10
-  jump_n_sample: 10
+  jump_length: 10               
+  jump_n_sample: 10             
 data:
   eval:
-    lama_p256_ex64_n100_test:
+    paper_face_mask:
       mask_loader: true
-      gt_path: ./data/datasets/gts/p256
-      mask_path: ./data/datasets/gt_keep_masks/ex64
+      gt_path: ./cache/image
+      mask_path: ./cache/mask
       image_size: 256
       class_cond: false
       deterministic: true
@@ -74,13 +77,7 @@ data:
       random_flip: false
       return_dict: true
       drop_last: false
-      batch_size: 4
+      batch_size: 1
       return_dataloader: true
-      ds_conf:
-        name: random_ex64_256
-      max_len: 100
-      paths:
-        srs: ./log/test_p256_ex64/inpainted
-        lrs: ./log/test_p256_ex64/gt_masked
-        gts: ./log/test_p256_ex64/gt
-        gt_keep_masks: ./log/test_p256_ex64/gt_keep_mask
+      offset: 0
+      max_len: 8
