@@ -173,6 +173,16 @@ if __name__ == "__main__":
     
     # Lưu ảnh tạm nếu cần (hoặc xử lý tiếp)
     if output_image is not None:
+        output_directory = Path('models/inpainted')
+        output_directory.mkdir(parents=True, exist_ok=True)
+
+        # Kiểm tra xem thư mục đã được tạo chưa
+        if output_directory.exists():
+            print(f"Thư mục '{output_directory}' đã được tạo.")
+        else:
+            print(f"Không thể tạo thư mục '{output_directory}'.")
+
         import cv2
-        cv2.imwrite('temp_output.png', output_image)
+        output_image_path = output_directory / 'inpainted.png'
+        cv2.imwrite(str(output_image_path), output_image)
         print("Đã xử lý xong và lưu ảnh tạm")
