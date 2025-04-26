@@ -53,8 +53,8 @@ use_ddim: false
 latex_name: RePaint
 method_name: Repaint
 image_size: 256
-classifier_path: ./models/256x256_classifier.pt
-model_path: ./models/256x256_diffusion.pt
+classifier_path: ./RePaint/models/256x256_classifier.pt
+model_path: ./RePaint/models/256x256_diffusion.pt
 name: face_example
 inpa_inj_sched_prev: true
 n_jobs: 25

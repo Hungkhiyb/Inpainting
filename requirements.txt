@@ -18,3 +18,4 @@ einops
 h5py
 blobfile
 basicsr
+gradio
