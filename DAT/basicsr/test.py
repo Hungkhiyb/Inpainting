@@ -44,8 +44,8 @@ def test_pipeline(root_path):
                     sr_img = sr_img[..., ::-1]
                 pil_img = Image.fromarray(sr_img)
 
-                os.makedirs("../../cache/final", exist_ok=True)
-                output_path = '../../cache/final/final.png'
+                os.makedirs("./cache/final", exist_ok=True)
+                output_path = './cache/final/final.png'
                 pil_img.save(output_path)
                 print(f"Ảnh đã được lưu tại: {output_path}")
 

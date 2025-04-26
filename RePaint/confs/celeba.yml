@@ -68,8 +68,8 @@ data:
   eval:
     paper_face_mask:
       mask_loader: true
-      gt_path: ../cache/image
-      mask_path: ../cache/mask
+      gt_path: ./cache/image
+      mask_path: ./cache/mask
       image_size: 256
       class_cond: false
       deterministic: true
